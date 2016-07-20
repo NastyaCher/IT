@@ -15,3 +15,20 @@ void setup() {
   CurieIMU.begin();
   CurieIMU.setGyroRange(250);
 }
+
+void loop() {
+  
+  int gxRaw, gyRaw, gzRaw;         // переменные для «сырых» значений от гироскопа
+  //float gx, gy, gz; 
+  CurieIMU.readGyro(gxRaw, gyRaw, gzRaw); //измеряем по оси x,y,z
+  Serial.print("g:\t"); //выводим на компьютер
+  Serial.print(gzRaw);
+  delay(100);
+  Serial.println();
+  if (gzRaw > 5000) //если человек хорошо (быстро и высоко) поднял гантелю, на дисплее выводим "GOOD".
+  {
+    lcd.print("Good");
+    delay(4000);
+    lcd.clear();
+  }
+}
