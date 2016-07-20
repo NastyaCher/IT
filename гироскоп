@@ -1,0 +1,17 @@
+#include "CurieIMU.h"
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(4, 5, 10, 11, 12, 13); //объявляем пину к которым подключаем дисплей
+
+void setup() {
+  lcd.begin(16, 2); //готовим дисплей к работе
+  lcd.print("100");
+  delay(100);
+  lcd.clear();
+  
+  Serial.begin(9600); //"готовим" Serial-вывод и гироскоп к работе
+  while (!Serial);   
+  Serial.println("Initializing IMU device..."); 
+  CurieIMU.begin();
+  CurieIMU.setGyroRange(250);
+}
