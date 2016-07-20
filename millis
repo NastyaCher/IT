@@ -1,0 +1,13 @@
+unsigned long time;
+ 
+void setup(){
+  Serial.begin(9600);
+}
+void loop(){
+  Serial.print("Time: ");
+  time = millis();
+  //выводит количество миллисекунд с момента начала выполнения программы
+  Serial.println(time);
+  // ждет секунду, перед следующей итерацией цикла.
+  delay(1000);
+}
