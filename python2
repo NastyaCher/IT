@@ -1,0 +1,40 @@
+import serial
+#print('INIT:')
+ser = serial.Serial('COM12', 9600, timeout=0, parity=serial.PARITY_EVEN, rtscts=1)
+
+#print('READY:')
+while '*' != ser.read().decode('utf-8'):
+    ser.flushInput()
+
+#print('GO:')
+i = 0
+a = []
+s = ''
+while i < 200:
+    char = ser.read().decode('utf-8')
+
+    if '*' != char:
+        s += char                
+    else:
+        #print(s) 
+        a.append(float(s))
+        s = ''
+        i += 1
+print(a)
+while True:
+    for i in range(199):
+        a[i] = a[i+1]
+    i = 0
+    while i < 1:
+        char = ser.read().decode('utf-8')
+
+        if '*' != char:
+            s += char
+        else:
+            #print(s)
+            a[199] = float(s)
+            s = ''
+            i += 1
+    print(a)
+    break
+ser.close()
