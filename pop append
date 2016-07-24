@@ -1,0 +1,49 @@
+import matplotlib.pyplot as plt
+fig = plt.figure()
+import serial
+#print('INIT:')
+ser = serial.Serial('COM8', 9600, timeout=0, parity=serial.PARITY_EVEN, rtscts=1)
+
+#print('READY:')
+while '*' != ser.read().decode('utf-8'):
+    ser.flushInput()
+
+#print('GO:')
+i = 0
+a = []
+s = ''
+while i < 200:
+    char = ser.read().decode('utf-8')
+
+    if '*' != char:
+        s += char                
+    else:
+        #print(s) 
+        a.append(float(s))
+        s = ''
+        i += 1
+#print(a)
+for t in range(200):
+        scatter1 = plt.scatter(t, a[t])
+        print('Scatter: ', type(scatter1))
+z = 0
+while z != 600:
+    a.pop(0)
+    i = 0
+    while i < 1:
+        char = ser.read().decode('utf-8')
+
+        if '*' != char:
+            s += char
+        else:
+            #print(s)
+            a.append(float(s))
+            scatter2 = plt.scatter(t+1, a[199])
+            t = t + 1
+            print('Scatter:', type(scatter2))
+            s = ''
+            i += 1
+    #print(a)
+    z = z + 1
+ser.close()
+plt.show()
