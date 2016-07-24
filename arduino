@@ -1,0 +1,18 @@
+#include "CurieIMU.h"
+int gzRaw;
+int count = 0;
+void setup() {
+  Serial.begin(9600); //"готовим" Serial-вывод и гироскоп к работе
+}
+
+void loop() {
+  CurieIMU.readGyro(gzRaw); //измеряем по оси x,y,z
+  if (gzRaw > 5000) //если человек хорошо (быстро и высоко) поднял гантелю, на дисплее выводим "GOOD".
+  {
+    count++;
+    Serial.print(count);
+    Serial.print("*");
+    delay(10);
+   
+  }
+}
