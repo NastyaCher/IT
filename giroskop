@@ -1,0 +1,25 @@
+// библиотека для работы I²C 
+#include <Wire.h>
+// библиотека для работы с модулями IMU     https://github.com/amperka/Troyka-IMU
+#include <TroykaIMU.h>
+ 
+// создаём объект для работы с акселерометром
+Accelerometer accel;
+ 
+void setup()
+{
+  // открываем последовательный порт
+  Serial.begin(9600);
+  // инициализация акселерометра
+  accel.begin();
+  // устанавливаем чувствительность акселерометра
+  // 2g — по умолчанию, 4g, 8g
+  accel.setRange(RANGE_8G);
+}
+ 
+void loop()
+{
+  Serial.print(accel.readAZ());
+  Serial.println();
+  delay(100);
+  }
