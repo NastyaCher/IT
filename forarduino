@@ -51,7 +51,7 @@ void loop() {
     //Serial.print("g:\t");
     //Serial.print(gzRaw);
     delay(100);
-
+// выводим на экран даные с акселерометра
     lcd.print(accel.readAZ());
     //Serial.println();
     //if (gzRaw > 8500)
