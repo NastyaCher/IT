@@ -1,0 +1,82 @@
+#include <LiquidCrystal.h>
+#include <Wire.h>
+#include <GOST4401_81.h>
+#include <l3g4200d.h>
+#include <lis331dlh.h>
+#include <lis3mdl.h>
+#include <LPS331.h>
+#include <MadgwickAHRS.h>
+#include <TroykaIMU.h>
+
+
+LiquidCrystal lcd(7, 5, 10, 11, 12, 13);
+int butt;
+int kol = 0;
+char a;
+int x = 0;
+float time1;
+float acel;
+float current, prev;
+float time2;
+int counter = 0;
+
+Accelerometer accel;
+unsigned long time;
+
+
+
+
+void setup() {
+
+  pinMode(2, INPUT);
+  pinMode(8, OUTPUT);
+  //delay(500);
+  lcd.begin(16, 2);
+  Serial.begin(9600);
+  while (!Serial);
+  accel.begin();
+  // устанавливаем чувствительность акселерометра
+  // 2g — по умолчанию, 4g, 8g
+  accel.setRange(RANGE_8G);
+  current = prev = accel.readAZ();
+
+}
+
+void loop() {
+  butt = digitalRead(2);
+  if (butt == 0)
+  {
+    if (x == 1)
+    {
+      x = 0;
+    }
+    else
+    {
+      x = 1;
+    }
+  }
+
+  while (x == 1){
+    digitalWrite(8, HIGH);
+    butt = digitalRead(2);
+    if (butt == 0)
+    {
+      break; 
+    }
+    time1 = millis();
+    current = accel.readAZ();
+    if (current > 11) {
+      counter++;
+      //Serial.print("counter =");
+      //Serial.println(counter);
+      time2 = millis();
+      //Serial.print("deltatime = ");
+      //Serial.println(time2 - time1);
+      delay(550);
+    }
+  }
+
+  digitalWrite(8, LOW);
+
+  prev = current;   
+}
