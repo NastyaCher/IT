@@ -1,0 +1,28 @@
+import serial
+import datetime
+ser = serial.Serial('COM10', 9600)
+while b'*' != ser.read():
+    ser.flushInput()
+#print('GO:')
+i = 0
+a = []
+s = ''
+while i < 10:
+    char = ser.read().decode('utf-8')
+
+    if '*' != char:
+        s += char                
+    else:
+        print(s) 
+        a.append(float(s))
+        s = ''
+        i += 1
+print(a)
+op = open('python.txt', 'w')
+for i in a:
+    op.write(str(i))
+    op.write(' ')
+    now = datetime.datetime.now()
+    op.write(now)
+op.close()
+ser.close()
