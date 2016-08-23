@@ -1,0 +1,26 @@
+n = 238583822242819
+simple_num_in_n = []
+answer = []
+def check(i):
+    k = 0
+    for j in range(3, i)[::2]:
+        if i % j == 0:
+            k = k + 1
+    if k == 0:
+        return True
+    if k != 0:
+        return False
+def check_2(simple_num_in_n):
+    for i in simple_num_in_n:
+        for j in simple_num_in_n:
+            if i * j == n:
+                answer.append(i)
+                answer.append(j)
+                return True
+for i in range(3, n)[::2]:
+    if check(i) == True:
+        simple_num_in_n.append(i)
+        if check_2(simple_num_in_n) == True:
+            break
+print(simple_num_in_n)
+print(answer)
