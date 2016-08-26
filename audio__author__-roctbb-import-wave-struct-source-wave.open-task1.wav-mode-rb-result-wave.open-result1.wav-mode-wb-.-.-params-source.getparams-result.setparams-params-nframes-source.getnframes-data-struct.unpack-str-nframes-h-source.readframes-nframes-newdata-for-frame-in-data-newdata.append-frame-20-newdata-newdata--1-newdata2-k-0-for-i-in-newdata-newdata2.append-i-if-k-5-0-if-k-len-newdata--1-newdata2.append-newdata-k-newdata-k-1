@@ -1,0 +1,34 @@
+__author__ = 'roctbb'
+
+import wave,struct
+
+#открываем файл для чтения
+source = wave.open("task1.wav", mode="rb")
+#создаем новый файл, в который будем писать
+result = wave.open("result1.wav", mode="wb")
+
+#берем параметры аудиопотока исходного файла (число каналов, част. дискр, глубина и тд.)
+params = source.getparams()
+#и задаем для нового такие же
+result.setparams(params)
+
+nframes = source.getnframes()
+
+data = struct.unpack("<"+str(nframes)+"h", source.readframes(nframes))
+newdata = []
+
+
+for frame in data:
+    newdata.append(frame*20)#увеличиваем громкость
+newdata = newdata[::-1]
+newdata2 = []
+k = 0
+for i in newdata:#замедляем
+    newdata2.append(i)
+    if k % 5 == 0:
+        if k < len(newdata)-1:
+            newdata2.append((newdata[k]+newdata[k+1])//2)
+    k +=1
+newframes = struct.pack("<"+str(5572455)+"h", *newdata2)
+
+result.writeframes(newframes)
